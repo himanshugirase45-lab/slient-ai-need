@@ -27,10 +27,14 @@ import SignalHistoryModal from './components/SignalHistoryModal';
 import CivicChatbot from './components/CivicChatbot';
 import LandingPage from './pages/LandingPage';
 import { TRANSLATIONS, SUPPORTED_LANGUAGES } from './i18n/translations';
+import RoleSwitcherDropdown, { DEMO_ROLES } from './components/RoleSwitcherDropdown';
 
 export default function App() {
   const [currentLang, setCurrentLang] = useState('en');
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+
+  // Active Role / Persona state
+  const [currentRole, setCurrentRole] = useState(DEMO_ROLES[0]);
 
   // Theme state: 'dark' | 'light'
   const [theme, setTheme] = useState(() => {
@@ -182,6 +186,8 @@ export default function App() {
           allSignals={allSignals}
           theme={theme}
           toggleTheme={toggleTheme}
+          currentRole={currentRole}
+          onRoleChange={setCurrentRole}
         />
         {/* Civic Chatbot also available on landing page */}
         <CivicChatbot
@@ -312,6 +318,15 @@ export default function App() {
                 ))}
               </select>
             </div>
+
+            {/* Quick Demo Role Switcher & Persona Dropdown */}
+            <RoleSwitcherDropdown
+              currentRole={currentRole}
+              onRoleChange={setCurrentRole}
+              theme={theme}
+              onNavigateTab={(tab) => setActiveTab(tab)}
+              onOpenAddAudit={() => setShowAddModal(true)}
+            />
 
             <button
               onClick={() => setShowAddModal(true)}

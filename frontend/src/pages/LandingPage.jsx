@@ -5,6 +5,7 @@ import {
   MapPin, Database, ChevronRight, BarChart3, Users, ExternalLink,
   Lock, Calendar, FileText, Sun, Moon
 } from 'lucide-react';
+import RoleSwitcherDropdown from '../components/RoleSwitcherDropdown';
 
 export default function LandingPage({ 
   onExplore, 
@@ -13,7 +14,9 @@ export default function LandingPage({
   analytics = {}, 
   allSignals = [],
   theme = 'dark',
-  toggleTheme
+  toggleTheme,
+  currentRole,
+  onRoleChange
 }) {
   // Aggregate real stats from existing project data
   const totalCitizens = communities.reduce((acc, c) => acc + (c.population || 0), 0);
@@ -67,6 +70,15 @@ export default function LandingPage({
                   <Sun className="w-4 h-4 text-amber-400" />
                 )}
               </button>
+            )}
+
+            {currentRole && onRoleChange && (
+              <RoleSwitcherDropdown
+                currentRole={currentRole}
+                onRoleChange={onRoleChange}
+                theme={theme}
+                onNavigateTab={(tab) => onExplore(tab)}
+              />
             )}
 
             <button
